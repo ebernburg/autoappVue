@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="bootstrap.css" rel="stylesheet">
+    <link href="/app.css" rel="stylesheet">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="app">
+    <div class="container">
+        <div class="row">
+            <div class="col-5">
+                <h2 class="mb-3">Car application</h2>
+                <div>
+                    <p>Choose the car</p>
+                    <div>
+                        <input
+                                v-model="inputSearch"
+                                type="text"
+                                class="form-control mb-3" id="inputGroup"
+                                placeholder="Ford..."
+                        >
+                    </div>
+                    <hr>
+                </div>
+                <ul class="list-group">
+                    <li
+                            v-for="(car, idx) in filteredCars"
+                            class="list-group-item list-group-item-action"
+                            v-on:click="showDetails(idx)"
+                            :class="{'active' : selectedCarIndex===idx}"
+                    >
+                        {{car.name}}
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div class="col-7">
+
+                <div class="row">
+                    <div class="col-7 mt-4">
+                        <h2>{{car.name}}</h2>
+                        <img
+                                v-bind:src="car.image"
+
+                                width="400"
+                                height="250"
+                                class="rounded"
+                        >
+                    </div>
+                    <div class="col-5">
+                        <h2 class="mb-3">About this car</h2>
+                        <p>Name of car - <strong>{{car.name}}</strong></p>
+                        <p>Year of car - <strong>{{car.year}}</strong></p>
+                        <p>Owner of car - <strong>{{car.owner}}</strong></p>
+                        <div class="btn-toggle">
+                            <transition name="phone">
+                                <p
+                                        v-if="togglePhoneVisibility"
+                                >{{car.phone}}</p>
+                            </transition>
+                        </div>
+                        <div class="">
+                            <button
+                                    @click="togglePhoneVisibility = !togglePhoneVisibility"
+                                    class="btn btn-outline-success"
+                                    v-text="phoneBtnText"
+                            >
+
+                                <!--                                {{phoneBtnText}}-->
+
+                            </button>
+                            <button
+                                    @click="modalVisibility= true"
+                                    class="btn btn-primary"
+                            >
+                                Buy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row" v-if="logs.length">
+        <div class="col-md-8">
+            <ul class="list-group">
+                <li
+
+                        class="list-group-item list-group-item-secondary"
+                >
+                    A simple secondary list group item
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Modal window-->
+    <div class="modal fade show" tabindex="-1" v-if="modalVisibility">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Do you want to buy this car?</h5>
+                    <button
+                            @click="modalVisibility=false"
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                    >
+
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-7">
+                            <p>Name of car - <strong>{{car.name}}</strong></p>
+                            <p>Year of car - <strong>{{car.year}}</strong></p>
+                            <p>Owner of car - <strong>{{car.owner}}</strong></p>
+                        </div>
+                        <div class="col-5">
+                            <img
+                                    v-bind:src="car.image"
+
+                                    width="180"
+                                    height="150"
+                                    class="rounded"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                            @click="modalVisibility=false"
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                    <button
+                            @click="modalVisibility=false"
+                            type="button"
+                            class="btn btn-primary"
+                    >
+                        Buy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade show" v-if="modalVisibility"></div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
